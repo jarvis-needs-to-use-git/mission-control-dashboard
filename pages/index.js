@@ -11,16 +11,20 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function loadData() {
-      const tasksRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/tasks.json');
-      const projectsRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/projects.json');
-      const tasks = await tasksRes.json();
-      const projects = await projectsRes.json();
-      
-      setData({
-        projects,
-        tasks: tasks.map(t => ({...t, p_val: {High: 1, Medium: 2, Low: 3}[t.priority] || 4})),
-        generatedAt: new Date().toISOString()
-      });
+      try {
+        const tasksRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/tasks.json');
+        const projectsRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/projects.json');
+        const tasks = await tasksRes.json();
+        const projects = await projectsRes.json();
+        
+        setData({
+          projects,
+          tasks: tasks.map(t => ({...t, p_val: {High: 1, Medium: 2, Low: 3}[t.priority] || 4})),
+          generatedAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.error('Failed to load data', err);
+      }
     }
     loadData();
     const interval = setInterval(loadData, 60000);
@@ -59,15 +63,8 @@ export default function Dashboard() {
     return processed;
   }, [data, searchTerm, statusFilter, sortConfig]);
 
-  if (!data) return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-      <div className="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin mb-4"></div>
-      <div className="font-mono text-[10px] uppercase tracking-widest text-slate-400 animate-pulse">Establishing Satellite Uplink...</div>
-    </div>
-  );
-
-  const ongoing = data.tasks.filter(t => t.status === 'Ongoing');
-  const actions = data.tasks.filter(t => t.status === 'Action').sort((a,b) => a.p_val - b.p_val);
+  const ongoing = data ? data.tasks.filter(t => t.status === 'Ongoing') : [];
+  const actions = data ? data.tasks.filter(t => t.status === 'Action').sort((a,b) => a.p_val - b.p_val) : [];
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8 lg:p-12">
@@ -75,12 +72,19 @@ export default function Dashboard() {
         <title>Jarvis | Mission Control</title>
       </Head>
 
-      <div className="max-w-7xl mx-auto">
+      {!data && (
+        <div className="fixed inset-0 bg-slate-50 flex flex-col items-center justify-center p-4 z-50">
+          <div className="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin mb-4"></div>
+          <div className="font-mono text-[10px] uppercase tracking-widest text-slate-400 animate-pulse">Establishing Satellite Uplink...</div>
+        </div>
+      )}
+
+      <div className={`max-w-7xl mx-auto transition-opacity duration-500 ${!data ? 'opacity-0' : 'opacity-100'}`}>
         <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-6 gap-4">
           <div>
             <h1 className="text-4xl font-black tracking-tighter text-slate-800">MISSION CONTROL</h1>
             <p className="text-slate-400 text-xs font-mono mt-1 uppercase tracking-widest">
-              Live Satellite Feed • {new Date(data.generatedAt).toLocaleTimeString()}
+              Live Satellite Feed • {data ? new Date(data.generatedAt).toLocaleTimeString() : '--:--:--'}
             </p>
           </div>
           
@@ -100,7 +104,7 @@ export default function Dashboard() {
           </nav>
         </header>
 
-        {view === 'summary' ? (
+        {data && view === 'summary' ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-12">
               {/* Ongoing Section */}
@@ -194,7 +198,7 @@ export default function Dashboard() {
               </section>
             </div>
           </div>
-        ) : (
+        ) : data && (
           <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in duration-500">
             {/* Explorer Toolbar */}
             <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row gap-4 justify-between items-center">
@@ -284,3 +288,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
