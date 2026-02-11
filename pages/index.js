@@ -59,7 +59,12 @@ export default function Dashboard() {
     return processed;
   }, [data, searchTerm, statusFilter, sortConfig]);
 
-  if (!data) return <div className="flex h-screen items-center justify-center font-mono text-sm uppercase tracking-widest text-slate-400">Syncing Satellite...</div>;
+  if (!data) return (
+    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+      <div className="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin mb-4"></div>
+      <div className="font-mono text-[10px] uppercase tracking-widest text-slate-400 animate-pulse">Establishing Satellite Uplink...</div>
+    </div>
+  );
 
   const ongoing = data.tasks.filter(t => t.status === 'Ongoing');
   const actions = data.tasks.filter(t => t.status === 'Action').sort((a,b) => a.p_val - b.p_val);
@@ -68,7 +73,6 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8 lg:p-12">
       <Head>
         <title>Jarvis | Mission Control</title>
-        <script src="https://cdn.tailwindcss.com"></script>
       </Head>
 
       <div className="max-w-7xl mx-auto">
