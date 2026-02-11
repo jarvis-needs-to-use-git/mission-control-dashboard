@@ -1,0 +1,5 @@
+[{"id":1,"name":"Autonomy & Workflow","phase":"Infrastructure","status":"Active","objective":"Maximize background productivity","default_autonomy":"Full Autonomy"},
+{"id":2,"name":"Token Optimization","phase":"Implementation","status":"Active","objective":"Ruthless efficiency in context usage","default_autonomy":"Full Autonomy"},
+{"id":3,"name":"Nel Dubbio Growth","phase":"Strategy","status":"Active","objective":"Target niche communities & content clips","default_autonomy":"Ask for Approval"},
+{"id":4,"name":"Dev Lab","phase":"Development","status":"Active","objective":"Build personal apps & MoltBot infrastructure","default_autonomy":"Ask for Approval"},
+{"id":5,"name":"Tooling","phase":"Exploration","status":"Paused","objective":"Expand skillset by adding desired tools and keys to SHOPPING_LIST.md","default_autonomy":"Full Autonomy"}]
