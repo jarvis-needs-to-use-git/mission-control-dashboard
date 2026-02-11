@@ -67,37 +67,37 @@ export default function Dashboard() {
   const actions = data ? data.tasks.filter(t => t.status === 'Action').sort((a,b) => a.p_val - b.p_val) : [];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8 lg:p-12">
+    <div className="min-h-screen bg-[#f8fafc] text-[#0f172a] font-sans p-4 md:p-8 lg:p-12">
       <Head>
         <title>Jarvis | Mission Control</title>
       </Head>
 
       {!data && (
-        <div className="fixed inset-0 bg-slate-50 flex flex-col items-center justify-center p-4 z-50">
-          <div className="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin mb-4"></div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-slate-400 animate-pulse">Establishing Satellite Uplink...</div>
+        <div className="fixed inset-0 bg-[#f8fafc] flex flex-col items-center justify-center p-4 z-50">
+          <div className="w-12 h-12 border-4 border-[#e2e8f0] border-t-[#1e293b] rounded-full animate-spin mb-4"></div>
+          <div className="font-mono text-[10px] uppercase tracking-widest text-[#94a3b8] animate-pulse">Establishing Satellite Uplink...</div>
         </div>
       )}
 
       <div className={`max-w-7xl mx-auto transition-opacity duration-500 ${!data ? 'opacity-0' : 'opacity-100'}`}>
-        <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-6 gap-4">
+        <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between border-b border-[#e2e8f0] pb-6 gap-4">
           <div>
-            <h1 className="text-4xl font-black tracking-tighter text-slate-800">MISSION CONTROL</h1>
-            <p className="text-slate-400 text-xs font-mono mt-1 uppercase tracking-widest">
+            <h1 className="text-4xl font-black tracking-tighter text-[#1e293b]">MISSION CONTROL</h1>
+            <p className="text-[#94a3b8] text-xs font-mono mt-1 uppercase tracking-widest">
               Live Satellite Feed • {data ? new Date(data.generatedAt).toLocaleTimeString() : '--:--:--'}
             </p>
           </div>
           
-          <nav className="flex bg-slate-200 p-1 rounded-lg self-start md:self-auto">
+          <nav className="flex bg-[#e2e8f0] p-1 rounded-lg self-start md:self-auto">
             <button 
               onClick={() => setView('summary')}
-              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${view === 'summary' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${view === 'summary' ? 'bg-white text-[#0f172a] shadow-sm' : 'text-[#64748b] hover:text-[#334155]'}`}
             >
               SUMMARY
             </button>
             <button 
               onClick={() => setView('explorer')}
-              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${view === 'explorer' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${view === 'explorer' ? 'bg-white text-[#0f172a] shadow-sm' : 'text-[#64748b] hover:text-[#334155]'}`}
             >
               EXPLORER
             </button>
