@@ -82,6 +82,7 @@ export default function Dashboard() {
       <div className={`max-w-7xl mx-auto transition-opacity duration-500 ${!data ? 'opacity-0' : 'opacity-100'}`}>
         <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between border-b border-[#e2e8f0] pb-6 gap-4">
           <div>
+            <div className="text-[10px] font-bold text-blue-500 mb-1">UPDATE 1</div>
             <h1 className="text-4xl font-black tracking-tighter text-[#1e293b]">MISSION CONTROL</h1>
             <p className="text-[#94a3b8] text-xs font-mono mt-1 uppercase tracking-widest">
               Live Satellite Feed • {data ? new Date(data.generatedAt).toLocaleTimeString() : '--:--:--'}
