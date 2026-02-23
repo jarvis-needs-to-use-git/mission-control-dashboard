@@ -34,7 +34,7 @@ export default function Dashboard() {
   const activeTasks = useMemo(() => {
     if (!data) return [];
     return data.tasks
-      .filter(t => ['Ongoing', 'Deep Dive', 'Iterate'].includes(t.status))
+      .filter(t => t.status === 'Ongoing')
       .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
   }, [data]);
 
@@ -63,9 +63,8 @@ export default function Dashboard() {
     .header { border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; }
     .card { background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 15px; }
     .tag { font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+    .type-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; margin-right: 8px; background: #f1f5f9; color: #475569; }
     .tag-active { background: #ecfdf5; color: #065f46; }
-    .tag-deep { background: #eff6ff; color: #1e40af; }
-    .tag-iterate { background: #fef3c7; color: #92400e; }
     .tag-paused { background: #fef2f2; color: #991b1b; }
     .tag-queued { background: #f1f5f9; color: #475569; }
     .tag-done { background: #f1f5f9; color: #475569; }
@@ -82,7 +81,10 @@ export default function Dashboard() {
       {tasks.length === 0 ? <p style={{color: '#94a3b8'}}>{emptyMsg}</p> : tasks.map(task => (
         <div key={task.id} className="card">
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <span style={{fontSize: '10px', color: '#94a3b8'}}>{task.project_name}</span>
+            <div>
+              <span className="type-tag">{task.type}</span>
+              <span style={{fontSize: '10px', color: '#94a3b8'}}>{task.project_name}</span>
+            </div>
             <span className={`tag tag-${task.status.toLowerCase().replace(' ', '-')}`}>
               {task.status}
             </span>
@@ -110,7 +112,7 @@ export default function Dashboard() {
       <style>{styles}</style>
 
       <div className="header">
-        <div className="marker">ESTABLISHED 2026.02.23</div>
+        <div className="marker">TYPE-AWARE ARCHITECTURE</div>
         <h1 style={{fontSize: '40px', fontWeight: '900', letterSpacing: '-2px', margin: 0}}>MISSION CONTROL</h1>
       </div>
 
