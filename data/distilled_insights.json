@@ -1,0 +1,4 @@
+[{"id":1,"date":"2026-02-12","category":"Observation","insight":"Environment: Sub-agents are currently restricted (`allowAny: false`), requiring main-session manual execution for indexing tasks.","source":"memory/2026-02-12.md"},
+{"id":2,"date":"2026-02-12","category":"Observation","insight":"Efficiency: The `knowledge.db` FTS5 index is significantly faster than recursive greps on the doc directory.","source":"memory/2026-02-12.md"},
+{"id":3,"date":"2026-02-12","category":"Decision","insight":"Project Pivot: Standing down on Robin Space physics to focus on Core RAG and Memory maintenance.","source":"memory/2026-02-12.md"},
+{"id":4,"date":"2026-02-12","category":"Decision","insight":"Autonomy: Maintaining `standard` autonomy for RAG tasks to ensure safety during \"Janitor\" pruning implementation.","source":"memory/2026-02-12.md"}]
