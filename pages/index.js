@@ -30,9 +30,32 @@ export default function Dashboard() {
     loadData();
   }, []);
 
-  const activeTasks = data ? data.tasks.filter(t => ['Ongoing', 'Deep Dive', 'Iterate'].includes(t.status)) : [];
-  const pausedTasks = data ? data.tasks.filter(t => ['Paused', 'Queued'].includes(t.status)) : [];
-  const archiveTasks = data ? data.tasks.filter(t => t.status === 'Done') : [];
+  const activeTasks = useMemo(() => {
+    if (!data) return [];
+    return data.tasks
+      .filter(t => ['Ongoing', 'Deep Dive', 'Iterate'].includes(t.status))
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+  }, [data]);
+
+  const pausedTasks = useMemo(() => {
+    if (!data) return [];
+    return data.tasks
+      .filter(t => ['Paused', 'Queued'].includes(t.status))
+      .sort((a, b) => {
+        // Queued (status group 1) before Paused (status group 2)
+        if (a.status === 'Queued' && b.status === 'Paused') return -1;
+        if (a.status === 'Paused' && b.status === 'Queued') return 1;
+        // Within group, descending updated_at
+        return new Date(b.updated_at) - new Date(a.updated_at);
+      });
+  }, [data]);
+
+  const archiveTasks = useMemo(() => {
+    if (!data) return [];
+    return data.tasks
+      .filter(t => t.status === 'Done')
+      .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at));
+  }, [data]);
 
   const styles = `
     body { background: #f8fafc; color: #0f172a; font-family: sans-serif; margin: 0; padding: 20px; }
@@ -50,9 +73,10 @@ export default function Dashboard() {
     .nav-btn { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; }
     .nav-btn.active { background: #0f172a; color: white; border-color: #0f172a; }
     .priority { font-size: 10px; margin-left: 8px; color: #94a3b8; }
+    .timestamp { font-size: 10px; color: #94a3b8; display: block; margin-top: 10px; }
   `;
 
-  const renderTaskList = (tasks, emptyMsg) => (
+  const renderTaskList = (tasks, emptyMsg, showCompletedDate = false) => (
     <div>
       {tasks.length === 0 ? <p style={{color: '#94a3b8'}}>{emptyMsg}</p> : tasks.map(task => (
         <div key={task.id} className="card">
@@ -67,6 +91,11 @@ export default function Dashboard() {
             <span className="priority">P:{task.priority}</span>
           </h3>
           <p style={{color: '#64748b', fontSize: '14px'}}><strong>Next:</strong> {task.next_step}</p>
+          <span className="timestamp">
+            {showCompletedDate 
+              ? `Completed: ${new Date(task.completed_at).toLocaleString()}` 
+              : `Modified: ${new Date(task.updated_at).toLocaleString()}`}
+          </span>
         </div>
       ))}
     </div>
@@ -111,7 +140,7 @@ export default function Dashboard() {
           {view === 'archive' && (
             <div>
               <h2 style={{fontSize: '12px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '2px'}}>Completed</h2>
-              {renderTaskList(archiveTasks, 'Archive is empty.')}
+              {renderTaskList(archiveTasks, 'Archive is empty.', true)}
             </div>
           )}
         </div>
