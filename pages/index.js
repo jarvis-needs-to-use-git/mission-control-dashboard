@@ -8,8 +8,9 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadData() {
       try {
-        const tasksRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/tasks.json');
-        const projectsRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/projects.json');
+        const cacheBuster = `?t=${new Date().getTime()}`;
+        const tasksRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/tasks.json' + cacheBuster);
+        const projectsRes = await fetch('https://raw.githubusercontent.com/jarvis-needs-to-use-git/mission-control-dashboard/main/data/projects.json' + cacheBuster);
         const tasks = await tasksRes.json();
         const projects = await projectsRes.json();
         
