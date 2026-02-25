@@ -5,4 +5,5 @@
 {"id":5,"name":"Tooling","status":"Paused","objective":"Expand skillset by adding desired tools and keys to SHOPPING_LIST.md","default_autonomy":"Full Autonomy"},
 {"id":6,"name":"Robin Space: Phased Array Tool","status":"Paused","objective":"Develop a Floquet analysis tool for phased array antennas.","default_autonomy":"Ask for Approval"},
 {"id":7,"name":"Robin Space Phased Array Tool","status":"Active","objective":null,"default_autonomy":"Ask for Approval"},
-{"id":8,"name":"Podcast Automated Transcription","status":"Active","objective":"Automatically detect new Nel Dubbio episodes via iTunes API and generate transcripts using Whisper for community engagement.","default_autonomy":"Full Autonomy"}]
+{"id":8,"name":"Podcast Automated Transcription","status":"Active","objective":"Automatically detect new Nel Dubbio episodes via iTunes API and generate transcripts using Whisper for community engagement.","default_autonomy":"Full Autonomy"},
+{"id":9,"name":"OpenClaw Office Economy","status":"Active","objective":"Design and build a token-based competitive office environment for OpenClaw agents.","default_autonomy":"Full Autonomy"}]
